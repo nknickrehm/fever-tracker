@@ -35,7 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   fetch('/map.geojson')
     .then(data => data.json())
-    .then(json => geojson = L.geoJson(json, { style, onEachFeature }).addTo(map));
+    .then((json) => {
+      geojson = L.geoJson(json, { style, onEachFeature }).addTo(map);
+      document.querySelector('#loading').classList.toggle('is-hidden');
+    });
 
   window.setTimeout(selfDestroyNotifications, 5000);
 });

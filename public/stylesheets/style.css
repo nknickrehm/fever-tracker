@@ -64,3 +64,11 @@ modal-close {
 .notification:target {
   display: block;
 }
+#loading {
+  z-index: 1005;
+  position: fixed;
+  left: calc(50vw - 1.5rem);
+  top: calc(50vh - 1.5rem);
+  width: 3rem;
+  height: 3rem;
+}
