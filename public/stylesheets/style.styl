@@ -1,0 +1,48 @@
+body
+  padding 0
+  margin 0
+  width 100vw
+  height 100vh
+  overflow hidden
+#fewerMap
+  height 100vh
+  width 100vw
+#titleWidget
+  left 5vw
+  top 5vw
+  position fixed
+  max-width 90vw
+  min-width 300px
+  z-index 1000
+#bottomWidget
+  left 5vw
+  bottom calc(5vw + 3rem)
+  position fixed
+  z-index 1000
+  max-width 90vw
+  min-width 300px
+#titleWidget, #bottomWidget
+  transition all .2s linear
+  &:hover
+    opacity 1
+  @media only screen and (max-width: 800px)
+    opacity 0.3
+#addReportForm
+  z-index 1001
+#mainFooter
+  z-index 1001
+  position fixed
+  bottom 0
+  left 5vw
+  width 90vw
+  padding-bottom 1rem
+.modal-content, modal-close
+  z-index 1002
+.notification
+  position fixed
+  top 5vw
+  right 5vw
+  z-index 1003
+  display none
+.notification:target
+  display block

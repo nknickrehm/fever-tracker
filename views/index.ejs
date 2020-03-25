@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fierber-Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/main.js"></script>
+  </head>
+  <body>
+    <div class="notification is-primary" id="erfolgreich">Ihre Daten wurden hinzugefügt.</div>
+    <div class="notification is-danger" id="falschePLZ">Diese PLZ ist ungültig.</div>
+    <div class="notification is-danger" id="falscheTemperatur">Diese Temperatur ist ungültig.</div>
+    <div class="notification is-danger" id="fehlendeDaten">Ungültige Anfrage.</div>
+
+    <div id="fewerMap"></div>
+
+    <div id="titleWidget" class="card">
+      <header class="card-content">
+        <h1 class="title">
+          <i class="fa fa-thermometer-three-quarters"></i>&nbsp;&nbsp;Fieber-Tracker
+        </h1>
+        <p class="subtitle">powered by tbd.</p>
+        <button onclick="toggleReportForm()" class="button is-primary is-rounded">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>
+          <span>Temperatur melden</span>
+        </button>
+        <br>
+        <br>
+        <h2><i class="fa fa-calendar-alt"></i>&nbsp;&nbsp;<span id="currentDate"></span></h2>
+      </header>
+      <footer class="card-footer">
+        <a onclick="addToCurrentDate(-1)" class="card-footer-item">- 1</a>
+        <a onclick="setCurrentDateToday()" class="card-footer-item">Heute</a>
+        <a onclick="addToCurrentDate(1)" class="card-footer-item">+ 1</a>
+      </footer>
+    </div>
+
+    <div id="bottomWidget" class="card">
+      <div class="card-content">
+        <p class="is-size-5">
+          <i class="fa fa-map-marker-alt"></i>&nbsp;&nbsp;<span id="currentPLZArea"></span>
+        </p>
+        <p class="is-size-5">
+          <i class="fa fa-thermometer-half"></i>&nbsp;&nbsp;<span id="currentAvgTemp"></span>
+        </p>
+      </div>
+    </div>
+
+    <footer id="mainFooter" class="has-text-centered">
+      <a href="#" class="button is-white is-rounded is-small">
+      <span class="icon">
+        <i class="fa fa-info"></i>
+      </span>
+        <span>Impressum</span>
+      </a>
+
+      <a href="#" class="button is-white is-rounded is-small">
+      <span class="icon">
+        <i class="fa fa-eye"></i>
+      </span>
+        <span>Datenschutz</span>
+      </a>
+    </footer>
+
+    <div id="addReportForm" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Temperatur melden</p>
+        </header>
+        <form action="/neue-messung" method="post">
+          <section class="modal-card-body">
+            <div class="field">
+              <label class="label">Gemessene Körpertemperatur in °C</label>
+              <div class="control">
+                <input class="input" id="temp" name="temp" required type="number" min="36" max="42">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Die ersten drei Stellen deiner PLZ</label>
+              <div class="control">
+                <input class="input" id="plz" name="plz" required type="text" maxlength="3" minlength="3">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Alter in Jahren</label>
+              <div class="control">
+                <input class="input" id="age" name="age" required type="number" min="0" max="130">
+              </div>
+            </div>
+            <label class="checkbox">
+              <input type="checkbox" required>
+              Ich stimme den <a href="#">Datenschutzbestimmungen</a> zu
+            </label>
+          </section>
+          <footer class="modal-card-foot">
+            <input type="submit" class="button is-success" value="Abschicken">
+            <button onclick="toggleReportForm()" class="button">Abbrechen</button>
+          </footer>
+        </form>
+      </div>
+      <button onclick="toggleReportForm()" class="modal-close is-large" aria-label="close"></button>
+    </div>
+  </body>
+</html>
