@@ -20,6 +20,7 @@ router.post('/neue-messung', async function(req, res, next) {
   let { plz, temp, age } = req.body;
   if (!plz || !temp) return res.redirect('/#fehlendeDaten');
 
+  temp.replace(',', '.');
   age = Number.parseInt(age);
   temp = Number.parseFloat(temp);
 
