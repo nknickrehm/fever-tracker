@@ -1,16 +1,15 @@
-require('dotenv').config();
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var stylus = require('stylus');
-const mongoose = require('mongoose');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const stylus = require('stylus');
 
-var indexRouter = require('./routes/index');
+require('./db');
 
-var app = express();
-mongoose.connect(`mongodb://127.0.0.1/fewermap`);
+const indexRouter = require('./routes/index');
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

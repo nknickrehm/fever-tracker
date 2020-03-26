@@ -1,5 +1,3 @@
-var mapboxAccessToken = 'pk.eyJ1IjoibmtuaWNrcmVobSIsImEiOiJjazg4bjNybnUwNDhkM2dwM2xidzRmbXBoIn0.s6c8wfcOfUN6jBr4UG4VPA';
-var grecaptchaSiteKey = '6LekLOQUAAAAAF8ZgQtqSZLkObH5iOXHTU_UZO3H';
 var COLOR_NO_DATA = '#eee';
 var geojson;
 var map;
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
   moment.locale('de');
   setCurrentDateToday();
 
-  map = L.map('fewerMap').setView([51.352,10.062], 6);
+  map = L.map('feverMap').setView([51.352,10.062], 6);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',

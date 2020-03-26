@@ -1,35 +1,52 @@
-var express = require('express');
-var axios = require('axios');
-var router = express.Router();
+const express = require('express');
+const axios = require('axios');
+
+const config = require('../config');
 const { Feature } = require('../models/feature');
 
+const router = express.Router();
+
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { GRECAPTCHA_SITE_KEY: config.GRECAPTCHA_SITE_KEY, MAPBOX_API_KEY: config.MAPBOX_API_KEY });
 });
 
+/**
+ * GET the GeoJSON data for the zip code areas
+ */
 router.get('/map.geojson', async function(req, res, next) {
   let features = await Feature.find({},  { '_id': 0, '__v': 0 });
   const geoJson = { type: 'FeatureCollection', features };
   return res.json(geoJson);
 });
 
+/**
+ * GET requests on the add report url will be redirected to the front page
+ */
 router.get('/neue-messung', function(req, res, next) {
   res.redirect('/');
 });
 
+/**
+ * POST request to add reports
+ */
 router.post('/neue-messung', async function(req, res, next) {
+  // Check if all mandatory fields are included in the POST request
   let { plz, temp, age, grecaptcha } = req.body;
   if (!plz || !temp || !grecaptcha) return res.redirect('/#fehlendeDaten');
 
-  const grecaptchaResult = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GRECAPTCHA_SECRET_KEY}&response=${grecaptcha}`);
+  // SPAM protection
+  const grecaptchaResult = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${config.GRECAPTCHA_SECRET_KEY}&response=${grecaptcha}`);
   if (!grecaptchaResult.data.success) return res.redirect('/#fehlendeDaten');
 
-  temp.replace(',', '.');
   age = Number.parseInt(age);
+  // Just German things
+  temp.replace(',', '.');
   temp = Number.parseFloat(temp);
 
+  // Validate if age and temperature are Numbers
   if (Number.isNaN(age) || Number.isNaN(temp)) return res.redirect('/#fehlendeDaten');
 
+  // Check if temp is in a valid range
   let validatedTemp = Number.parseFloat(temp);
   if (Number.isNaN(validatedTemp)) return res.redirect('/#falscheTemperatur');
   if (validatedTemp < 35 || validatedTemp > 42) return res.redirect('/#falscheTemperatur');

@@ -1,11 +1,9 @@
-const mongoose = require('mongoose');
-const { features } = require('./plzData');
+require('../db');
 const { Feature } = require('../models/feature');
-
-mongoose.connect(`mongodb://127.0.0.1/fewermap`);
+const { features } = require('./plzData');
 
 async function insert(features) {
-  for (let i=0; i < features.length; i++) {
+  for (let i = 0; i < features.length; i++) {
     const feature = new Feature(features[i]);
     try {
       await feature.save();
@@ -13,7 +11,9 @@ async function insert(features) {
       console.error(error);
     }
   }
-  process.exit(0);
 }
 
-insert(features);
+console.log('Start seeding the database. Please wait...');
+insert(features)
+  .then(() => { console.log('Success.'); process.exit(0); })
+  .catch(e => { console.error(e); process.exit(1); });
