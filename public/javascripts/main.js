@@ -1,4 +1,4 @@
-var mapboxAccessToken = 'pk.eyJ1IjoibmtuaWNrcmVobSIsImEiOiJjanU0ZTZhZ2wwdThkNDNxYzl3MTgxM2hwIn0.tAp7qut5N1JKo4K2sSrNgA';
+var mapboxAccessToken = 'pk.eyJ1IjoibmtuaWNrcmVobSIsImEiOiJjazg4bjNybnUwNDhkM2dwM2xidzRmbXBoIn0.s6c8wfcOfUN6jBr4UG4VPA';
 var COLOR_NO_DATA = '#eee';
 var geojson;
 var map;
