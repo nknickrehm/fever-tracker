@@ -8,6 +8,8 @@ var currentDateLabel;
 var currentPLZArea;
 var currentAvgTemp;
 var addReportForm;
+var privacyInformation;
+var imprint;
 var year, month, day;
 var selectedFeature;
 
@@ -18,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
   currentAvgTemp = document.querySelector('#currentAvgTemp');
   currentDateLabel = document.querySelector('#currentDate');
   addReportForm = document.querySelector(' #addReportForm');
+  privacyInformation = document.querySelector(' #privacyInformation');
+  imprint = document.querySelector(' #imprint');
 
   moment.locale('de');
   setCurrentDateToday();
@@ -41,6 +45,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   window.setTimeout(selfDestroyNotifications, 5000);
+
+  grecaptcha.ready(function() {
+    grecaptcha.execute('6LekLOQUAAAAAF8ZgQtqSZLkObH5iOXHTU_UZO3H', {action: 'addReport'})
+      .then(function(token) {
+        document.querySelector('#grecaptcha').value = token;
+      });
+  });
 });
 
 function getColor(feature) {
@@ -62,11 +73,11 @@ function getColor(feature) {
 function style(feature) {
   return {
     fillColor: getColor(feature),
-    weight: 2,
+    weight: .5,
     opacity: 1,
     color: 'white',
-    dashArray: '3',
-    fillOpacity: 0.7
+    dashArray: '1',
+    fillOpacity: .5
   };
 }
 
@@ -74,10 +85,10 @@ function highlightFeature(target) {
   var layer = target;
 
   layer.setStyle({
-    weight: 5,
+    weight: 1,
     color: '#666',
     dashArray: '',
-    fillOpacity: 0.7
+    fillOpacity: .5
   });
 
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -113,6 +124,8 @@ function zoomToFeature(target) {
 }
 
 function onEachFeature(feature, layer) {
+  //layer.bindPopup('PLZ: ' + feature.properties.plz + 'XX');
+  layer.bindTooltip('PLZ: ' + feature.properties.plz + 'XX', { sticky: true });
   layer.on({
     mouseover: function (e) { highlightFeature(e.target) },
     mouseout: function (e) { resetHighlight(e.target) },
@@ -132,6 +145,16 @@ function perc2color(perc) {
 
 function toggleReportForm() {
   addReportForm.classList.toggle('is-active');
+  document.querySelector('html').classList.toggle('is-clipped');
+}
+
+function togglePrivacyModal() {
+  privacyInformation.classList.toggle('is-active');
+  document.querySelector('html').classList.toggle('is-clipped');
+}
+
+function toggleImprintModal() {
+  imprint.classList.toggle('is-active');
   document.querySelector('html').classList.toggle('is-clipped');
 }
 

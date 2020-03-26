@@ -1,4 +1,5 @@
 var express = require('express');
+var axios = require('axios');
 var router = express.Router();
 const { Feature } = require('../models/feature');
 
@@ -17,8 +18,11 @@ router.get('/neue-messung', function(req, res, next) {
 });
 
 router.post('/neue-messung', async function(req, res, next) {
-  let { plz, temp, age } = req.body;
-  if (!plz || !temp) return res.redirect('/#fehlendeDaten');
+  let { plz, temp, age, grecaptcha } = req.body;
+  if (!plz || !temp || !grecaptcha) return res.redirect('/#fehlendeDaten');
+
+  const grecaptchaResult = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GRECAPTCHA_SECRET_KEY}&response=${grecaptcha}`);
+  if (!grecaptchaResult.data.success) return res.redirect('/#fehlendeDaten');
 
   temp.replace(',', '.');
   age = Number.parseInt(age);
@@ -28,7 +32,7 @@ router.post('/neue-messung', async function(req, res, next) {
 
   let validatedTemp = Number.parseFloat(temp);
   if (Number.isNaN(validatedTemp)) return res.redirect('/#falscheTemperatur');
-  if (validatedTemp < 36 || validatedTemp > 42) return res.redirect('/#falscheTemperatur');
+  if (validatedTemp < 35 || validatedTemp > 42) return res.redirect('/#falscheTemperatur');
 
   let feature;
 
@@ -71,7 +75,10 @@ router.post('/neue-messung', async function(req, res, next) {
     return res.redirect('/#fehlendeDaten');
   }
 
-  res.redirect('/#erfolgreich');
+  if (temp < 38)
+    res.redirect('/#erfolgreich');
+  else
+    res.redirect('/#gute-besserung');
 });
 
 module.exports = router;
