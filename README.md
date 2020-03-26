@@ -1,7 +1,7 @@
 # Fever Tracker
 This project sets up a heat map to track the daily average body temperature in different regions of Germany.
 
-The map visualizes the average reported body temperature for 3-digit zip code areas. You can navigate between days to detect the spreading of fever related viruses and report your own body temperature and age to participate in this crows sourcing project.
+The map visualizes the average reported body temperature for 3-digit zip code areas. You can navigate between days to detect the spreading of fever related viruses and report your own body temperature and age to participate in this crowd sourcing project.
 
 A demo is operated on [fieber-tracker.de](https://fieber-tracker.de). Please note that the whole user interface is currently only available in German.
 
