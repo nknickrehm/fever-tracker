@@ -1,4 +1,5 @@
 var mapboxAccessToken = 'pk.eyJ1IjoibmtuaWNrcmVobSIsImEiOiJjazg4bjNybnUwNDhkM2dwM2xidzRmbXBoIn0.s6c8wfcOfUN6jBr4UG4VPA';
+var grecaptchaSiteKey = '6LekLOQUAAAAAF8ZgQtqSZLkObH5iOXHTU_UZO3H';
 var COLOR_NO_DATA = '#eee';
 var geojson;
 var map;
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.setTimeout(selfDestroyNotifications, 5000);
 
   grecaptcha.ready(function() {
-    grecaptcha.execute('6LekLOQUAAAAAF8ZgQtqSZLkObH5iOXHTU_UZO3H', {action: 'addReport'})
+    grecaptcha.execute(grecaptchaSiteKey, {action: 'addReport'})
       .then(function(token) {
         document.querySelector('#grecaptcha').value = token;
       });
@@ -139,7 +140,7 @@ function onEachFeature(feature, layer) {
 }
 
 function perc2color(perc) {
-    const hue = Math.round(100 - perc);
+    var hue = Math.round(100 - perc);
     return ["hsl(", hue, ", 50%, 50%)"].join("");
 }
 
