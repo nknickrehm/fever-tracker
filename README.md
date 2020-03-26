@@ -13,12 +13,8 @@ A demo is operated on [fieber-tracker.de](https://fieber-tracker.de). Please not
 - [Google reCAPTCHA](https://developers.google.com/recaptcha) v3 is used for SPAM protection. You need to bring your own keys. 
 
 ## Setup
-- Run `npm install` inside the projects root directory
-- Run `node seeder/seeder.js`
-- Copy `.env.example` to `.env` and set `GRECAPTCHA_SECRET_KEY` to your reCAPTCHA v3 secret key
-- In `public/javascripts/main.js` set
-  - `mapboxAccessToken` to your Mapbox API token
-  - `grecaptchaSiteKey` to your reCAPTCHA v3 site key
-- In `views/index.ejs` in line 16 change the query parameter `?render=`to your reCAPTCHA v3 site key
+- Copy `.env.example` to `.env` and set at least the mandatory parameters
+- Run `npm install`
+- Run `npm run seed:db`
 - Run `npm start`
 - In your web browser visit `http://localhost:3000`
