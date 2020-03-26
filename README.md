@@ -1,6 +1,7 @@
 # Fever Tracker
 This project sets up a heat map to track the daily average body temperature in different regions of Germany.
 
+![Screenshot displaying the body temperature heatmap for Luebeck, Germany](https://github.com/nknickrehm/fever-tracker/tree/master/public/images/screenshot.png)
 ## Dependencies
 - [Node.js](https://nodejs.org/en/) LTS is required to run this application.
 - [MongoDB](https://www.mongodb.com/de) is used as a database system. Currently the application assumes that the database is operated on the same host without any login credentials. 
